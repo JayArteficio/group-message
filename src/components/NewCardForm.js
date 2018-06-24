@@ -44,13 +44,14 @@ class NewCardForm extends Component {
                     </div>
                     <div>
                         <label htmlFor='card-message-input' >Message</label>
-                        <input
+                        <textarea
                             id='card-message-input'
                             key='message'
                             name='Message'
                             type='text'
                             value={message}
-                            size={50}
+                            rows='5'
+                            cols='50'
                             autoComplete='off'
                             onChange={this.handleChange}
                         />    
@@ -68,6 +69,11 @@ class NewCardForm extends Component {
                             onChange={this.handleChange}
                         />    
                     </div>
+                    <button 
+                        type='button'
+                        style={{alignSelf: 'flex-end', marginRight: 0}}c
+                    >Save    
+                    </button>
                 </form>
             </div>
         )
