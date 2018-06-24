@@ -33,3 +33,76 @@ v.4 will have log-ins so that other people can use this app.
     <label for="theinput">Input here:</label>
     <input type='text' name='whatever' id='theinput'>
     This is especially useful for use with checkboxes and buttons, since it means you can check the box by clicking on the associated text instead of having to hit the box itself.
+
+8. setting state to handle each keystroke input:
+
+    handleChange = (e) => {
+        this.setState({[e.target.name]: e.target.value});
+    }
+
+    //this syntax works because name and value are the same word. 
+    ...in form 
+    <input 
+        name='from'
+        value={from}
+        onChange={this.handleChange} />
+
+
+9. got tripped up with saving a form to state.  the problem was my onSubmit  wasn't working because my form type was set to 'button' instead of submit.  
+
+    Here is the recipe for saving a form into state 
+
+    1. Create form in form.js 
+        -make sure  <button type='submit'>
+                       Save    
+                    </button>
+        //type needs to submit in order for onSubmit to work
+        
+        -the top <form> wrapper must be
+            <form onSubmit = {this.handleSubmit} >
+        //this tells it that once the submit button is pressed, need to 
+        //run the handleSubmit function 
+
+        -create defaultProp as a function 
+            class NewCardForm extends Component {
+                static defaultProps = {
+                    onSave() {},
+                }
+                
+    2. Make the method/function in the same file 
+
+            handleSubmit = (e) => {
+                e.preventDefault();
+                this.props.onSave({...this.state});
+                this.setState({
+                    from: '',
+                    message: '',
+                    image: '',
+                })
+            }
+            //e stands for event 
+            //preventDefault stops it from making an html request and refreshing the page 
+            //next line runs the onSave function with the state data passed into it 
+            //finally, clears the state so form is blank again 
+
+    3. in main app, create the handleSave function 
+
+      handleSave = (card) => {
+            this.setState((prevState, props) => {
+            const newCard = {...card, id: this.state.nextCardId};
+            return {
+                nextCardId: prevState.nextCardId + 1,
+                cards: [...this.state.cards, newCard],
+            }
+            });
+        } 
+
+        //sets state with previous state and the props pushed into it 
+        //sets newCard as the card/props data, and the nextCardId 
+        //returns the updated nexCardId (added 1 to it)
+        //sets cards as the current state of cards with the newCard added to it.
+
+    4. add handleSave function as a prop 
+        <NewCardForm onSave = {this.handleSave} />
+
+        //ie when onSave is callled, it runs the handleSave function 

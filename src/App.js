@@ -24,12 +24,21 @@ class App extends Component {
       nextCardId: 2,
     };
   }
-  
+  handleSave = (card) => {
+    this.setState((prevState, props) => {
+      const newCard = {...card, id: this.state.nextCardId};
+      return {
+        nextCardId: prevState.nextCardId + 1,
+        cards: [...this.state.cards, newCard],
+      }
+    });
+  }
+
   render() {
     return (
       <div className="App">
         <h1>Message Board</h1>
-        <NewCardForm />
+        <NewCardForm onSave = {this.handleSave} />
         <CardList cards={this.state.cards}/>
       </div>
     );

@@ -18,6 +18,16 @@ class NewCardForm extends Component {
         this.setState({[e.target.name]: e.target.value});
     }
 
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.props.onSave({...this.state});
+        this.setState({
+            from: '',
+            message: '',
+            image: '',
+        })
+    }
+
     render() {
         const {from , message, image} = this.state;
         const {onClose} = this.props;
@@ -25,9 +35,9 @@ class NewCardForm extends Component {
 
         return (
             <div>
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit = {this.handleSubmit} >
                     <button type='button' onclick={onClose}>
-                        X
+                        Y
                     </button>
                     <div>
                         <label htmlFor='card-from-input' >From</label>
@@ -47,7 +57,7 @@ class NewCardForm extends Component {
                         <textarea
                             id='card-message-input'
                             key='message'
-                            name='Message'
+                            name='message'
                             type='text'
                             value={message}
                             rows='5'
@@ -70,8 +80,8 @@ class NewCardForm extends Component {
                         />    
                     </div>
                     <button 
-                        type='button'
-                        style={{alignSelf: 'flex-end', marginRight: 0}}c
+                        type='submit'
+                        style={{alignSelf: 'flex-end', marginRight: 0}}
                     >Save    
                     </button>
                 </form>
