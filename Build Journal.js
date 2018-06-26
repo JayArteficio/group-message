@@ -68,7 +68,7 @@ v.4 will have log-ins so that other people can use this app.
                 static defaultProps = {
                     onSave() {},
                 }
-                
+
     2. Make the method/function in the same file 
 
             handleSubmit = (e) => {
@@ -106,3 +106,55 @@ v.4 will have log-ins so that other people can use this app.
         <NewCardForm onSave = {this.handleSave} />
 
         //ie when onSave is callled, it runs the handleSave function 
+      
+10. scratch using modal for form.  keep it on the same page so user can check other messages while they decide.  
+    also, keep making the skeleton, with very basic functionality. more important to get a working skeleton before adding improvements
+
+11.  implement show form, and close form 
+
+12. how to show form: 
+        -put showFrom in main app's state
+        showForm: false,
+        -pull it from state in render method 
+        render() {
+            const {showForm} = this.state;
+        -add to return with a conditional 
+        { showForm? <NewCardForm onSave = {this.handleSave} /> : null }
+
+        Adding the showForm button in the navbar
+        -pass a prop function from app to the navbar component
+        <Navbar onNewCard={() => this.setState({showForm: true})}/>
+        -receive that prop in the Navbar component
+
+            import React, { Component } from 'react';
+            import PropTypes from 'prop-types';
+            
+            class Navbar extends Component {
+                static defaultProps = {
+                    onNewCard() {}
+                }
+            
+                static propTypes = {
+                    onNewCard: PropTypes.func
+                }
+            ...
+            <li><a onClick={this.props.onNewCard} >New Card</a></li>
+
+13. how to hide the form 
+    - on the form component, add the callback on the button 
+    <button type='button' onClick={this.props.onClose}>X</button>
+    -add it to the defaultProps 
+    static defaultProps = {
+        onSave() {},
+        onClose() {},
+    }
+    -pass it from the main app 
+    <NewCardForm 
+    onClose = {()=>this.setState({showForm: false})}   
+
+    -hide the form on submit 
+        in HandleSave method, add this to update state,
+        return {
+            nextCardId: prevState.nextCardId + 1,
+            cards: [...this.state.cards, newCard],
+            showForm: false,

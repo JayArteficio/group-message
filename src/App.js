@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import CardList from './components/CardList';
 import NewCardForm from './components/NewCardForm';
+import Navbar from './components/Navbar';
+
 import './App.css';
 
 class App extends Component {
@@ -22,6 +24,7 @@ class App extends Component {
         },
       ],
       nextCardId: 2,
+      showForm: false,
     };
   }
   handleSave = (card) => {
@@ -30,20 +33,25 @@ class App extends Component {
       return {
         nextCardId: prevState.nextCardId + 1,
         cards: [...this.state.cards, newCard],
+        showForm: false,
       }
     });
   }
 
   render() {
+    const {showForm} = this.state;
     return (
       <div className="App">
-        <h1>Message Board</h1>
-        <NewCardForm onSave = {this.handleSave} />
+        <Navbar onNewCard={() => this.setState({showForm: true})}/>
+        { showForm? 
+          <NewCardForm 
+            onSave = {this.handleSave} 
+            onClose = {()=>this.setState({showForm: false})}            
+        /> : null }
         <CardList cards={this.state.cards}/>
       </div>
     );
   }
-
 }
 
 export default App;

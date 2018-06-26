@@ -30,14 +30,12 @@ class NewCardForm extends Component {
 
     render() {
         const {from , message, image} = this.state;
-        const {onClose} = this.props;
-
 
         return (
             <div>
                 <form onSubmit = {this.handleSubmit} >
-                    <button type='button' onclick={onClose}>
-                        Y
+                    <button type='button' onClick={this.props.onClose}>
+                        X
                     </button>
                     <div>
                         <label htmlFor='card-from-input' >From</label>
